@@ -28,7 +28,7 @@ def get_settings(experiment_name):
         "exp1": { 
             "ssp" : "119",             #[options: '126' or '119']
             "netzero_year" : 2056,            
-            "focus_year" : 2025,
+            "focus_year" : 2025,          
             "time_horizon" : 10,            
             "n_members" : 5,
             "filenames" : None,
@@ -41,7 +41,7 @@ def get_settings(experiment_name):
         "exp2": { 
             "ssp" : "126",             #[options: '126' or '119']
             "netzero_year" : 2076,            
-            "focus_year" : 2076,
+            "focus_year" : 2076,         
             "time_horizon" : 10,            
             "n_members" : 5,
             "filenames" : None,
@@ -54,7 +54,7 @@ def get_settings(experiment_name):
         "exp3": { 
             "ssp" : "126",             #[options: '126' or '119']
             "netzero_year" : 2076,            
-            "focus_year" : 2025,
+            "focus_year" : 2025,     
             "time_horizon" : 10,            
             "n_members" : 5,
             "filenames" : None,
@@ -62,7 +62,22 @@ def get_settings(experiment_name):
             "plot_member" : 10,            
             "gdp_year" : 2030,
             "pop_year" : 2030,               
-        },         
+        },
+        
+        "exp4": { 
+            "ssp" : "119",             #[options: '126' or '119']
+            "netzero_year" : 2056,            
+            "focus_year" : 2056,      
+            "time_horizon" : 10,            
+            "n_members" : 5,
+            "filenames" : None,
+            "warming_cutoff" : 0.01,
+            "plot_member" : 12,
+            "gdp_year" : 2060,
+            "pop_year" : 2060,
+        },     
+       
+        
         #---------------------- LARGE ENSEMBLES ---------------------------        
         
         "exp50": { 

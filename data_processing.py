@@ -28,6 +28,7 @@ def fraction_positive(da):
     return frac
 
 def compute_trends(da, start_year, end_year):
+    print('computing trends for ' + str(start_year) + '-' + str(end_year))
     iy = np.where((da["time"]>=start_year) & (da["time"]<=end_year))[0]
     if(len(da.shape)==3):
         da_years = da[iy,:,:]

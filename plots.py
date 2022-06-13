@@ -43,7 +43,7 @@ def get_qual_cmap():
     return ListedColormap(cmap2)   
         
     
-def drawOnGlobe(ax, map_proj, data, lats, lons, cmap='coolwarm', vmin=None, vmax=None, inc=None, cbarBool=True, contourMap=[], contourVals = [], fastBool=False, extent='both'):
+def drawOnGlobe(ax, map_proj, data, lats, lons, cmap='coolwarm', vmin=None, vmax=None, inc=None, cbarBool=True, contourMap=[], contourVals = [], fastBool=False, extent='both', border_color='k'):
 
     data_crs = ct.crs.PlateCarree()
     data_cyc, lons_cyc = add_cyclic_point(data, coord=lons) #fixes white line by adding point#data,lons#ct.util.add_cyclic_point(data, coord=lons) #fixes white line by adding point
@@ -61,8 +61,8 @@ def drawOnGlobe(ax, map_proj, data, lats, lons, cmap='coolwarm', vmin=None, vmax
         name='land',
         scale='50m',
         facecolor='None',
-        edgecolor = 'k',
-        linewidth=.5,
+        edgecolor = border_color,
+        linewidth=.75,
     )
     ax.add_feature(land_feature)
     
@@ -72,9 +72,9 @@ def drawOnGlobe(ax, map_proj, data, lats, lons, cmap='coolwarm', vmin=None, vmax
         name='admin_0_countries',
         scale='50m',
         facecolor='None',
-        edgecolor = 'k',
-        linewidth=.25,
-        alpha=.25,
+        edgecolor = border_color,
+        linewidth=.5,
+        alpha=.5,
     )
     ax.add_feature(country_feature)
     
@@ -157,3 +157,70 @@ def format_spines(ax):
     ax.spines['bottom'].set_linewidth(2)
     ax.tick_params('both',length=4,width=2,which='major',color='dimgrey')
 #     ax.yaxis.grid(zorder=1,color='dimgrey',alpha=0.35)   
+
+
+def plot_emissions(ax):
+    x = [2015,2020,2030,2040,2050,2060,2070,2080,2090,2100]
+    x_interp = np.arange(2015,2101)
+    low_color = 'teal'
+    high_color = 'tab:pink'
+    alpha = .8
+
+
+    ssp119 = [39152.726,39693.726,22847.271,10475.089, 2050.362, -1525.978,-4476.970,-7308.783,-10565.023,-13889.788]
+    ssp126 = [39152.726,39804.013,34734.424,26509.183,17963.539,10527.979,4476.328,-3285.043,-8385.183,-8617.786]
+
+    ssp119_interp = np.interp(x_interp,x,ssp119)*1000000
+    ssp126_interp = np.interp(x_interp,x,ssp126)*1000000
+
+    i = np.where(ssp119_interp<=0)[0]
+    ssp119_yr = x_interp[i][0]
+
+    i = np.where(ssp126_interp<=0)[0]
+    ssp126_yr = x_interp[i][0]
+
+    #--------------------------------------------------------
+    plt.axhline(y=0,color='dimgray',linewidth=1.)
+
+    plt.plot(x_interp,ssp119_interp/(10e9),
+             linewidth=3,
+             color=low_color,
+             alpha=alpha,
+             label='SSP1-1.9')
+    plt.plot(x_interp,ssp126_interp/(10e9),
+             linewidth=3,     
+             color=high_color,         
+             alpha=alpha,         
+             label='SSP1-2.6')
+
+    plt.legend()
+
+    plt.annotate(ssp119_yr,(ssp119_yr,0),
+                 color=low_color,
+                 xytext=(2045,-.75),
+                 arrowprops=dict(arrowstyle="->",
+                                 color=low_color,
+                                 connectionstyle="arc3"),             
+                )
+
+    plt.annotate(ssp126_yr,(ssp126_yr,0),
+                 color=high_color,
+                 xytext=(2082,.5),
+                 arrowprops=dict(arrowstyle="->",
+                                 color=high_color,
+                                 connectionstyle="arc3"),             
+                )
+
+
+
+    plt.ylabel('Gt per year')
+    plt.xlabel('year')
+
+    format_spines(plt.gca())
+    plt.xticks(np.arange(2010,2110,10),np.arange(2010,2110,10))
+    plt.yticks(np.arange(-2,10,1),np.arange(-2,10,1))
+
+    plt.xlim(2015,2100)
+    plt.ylim(-1.5,4.5)
+
+    plt.title('anthropogenic CO$_2$ emissions under SSP1')    
