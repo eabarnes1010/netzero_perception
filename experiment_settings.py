@@ -278,6 +278,31 @@ def get_settings(experiment_name):
             "pop_year": 1900,
         },
 
+        "exp101": {
+            "ssp": "119-x-pre",  # [options: '126' or '119']
+            "netzero_year": 1876,
+            "focus_year": 1850,
+            "time_horizon": 10,
+            "n_members": 5,
+            "filenames": None,
+            "warming_cutoff": 0.01,
+            "plot_member": 8,
+            "gdp_year": 1900,
+            "pop_year": 1900,
+        },
+        "exp102": {
+            "ssp": "119-x",  # [options: '126' or '119']
+            "netzero_year": 2056,
+            "focus_year": 2025,
+            "time_horizon": 10,
+            "n_members": 5,
+            "filenames": None,
+            "warming_cutoff": 0.01,
+            "plot_member": 8,
+            "gdp_year": 2030,
+            "pop_year": 2030,
+        },
+
     }
 
     exp_dict = experiments[experiment_name]
