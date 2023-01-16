@@ -6,6 +6,8 @@
 *.nc
 *.csv
 
+.idea/
+
 *.bz2
 #*.csv
 #*.h5
