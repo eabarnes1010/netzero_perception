@@ -123,7 +123,24 @@ def get_data(DATA_DIRECTORY, YEAR_RANGE, N_MEMBERS=None, filenames=None, ssp="11
                 "tas_day_ssp119_MRI-ESM2-0_r1-5_ncecat_yearmax_2pt5degree.nc",
                 "tas_day_ssp119_UKESM1-0-LL_r1-5_ncecat_yearmax_2pt5degree.nc",
             )
-
+        elif ssp=="119-x-pre-pr":
+            filenames = (
+                "pr_day_historical_CanESM5_r1-5_ncecat_yearmax_2pt5degree.nc",
+                "pr_day_historical_IPSL-CM6A-LR_r1-5_ncecat_yearmax_2pt5degree.nc",
+                "pr_day_historical_MIROC-ES2L_r1-5_ncecat_yearmax_2pt5degree.nc",
+                "pr_day_historical_MPI-ESM1-2_r1-5_ncecat_yearmax_2pt5degree.nc",
+                "pr_day_historical_MRI-ESM2-0_r1-5_ncecat_yearmax_2pt5degree.nc",
+                "pr_day_historical_UKESM1-0-LL_r1-5_ncecat_yearmax_2pt5degree.nc",
+            )
+        elif ssp=="119-x-pr":
+            filenames = (
+                "pr_day_ssp119_CanESM5_r1-5_ncecat_yearmax_2pt5degree.nc",
+                "pr_day_ssp119_IPSL-CM6A-LR_r1-5_ncecat_yearmax_2pt5degree.nc",
+                "pr_day_ssp119_MIROC-ES2L_r1-5_ncecat_yearmax_2pt5degree.nc",
+                "pr_day_ssp119_MPI-ESM1-2_r1-5_ncecat_yearmax_2pt5degree.nc",
+                "pr_day_ssp119_MRI-ESM2-0_r1-5_ncecat_yearmax_2pt5degree.nc",
+                "pr_day_ssp119_UKESM1-0-LL_r1-5_ncecat_yearmax_2pt5degree.nc",
+            )
         elif ssp=="126":
             filenames = (
                 "tas_Amon_historical_ssp126_CanESM5_r1-10_ncecat_ann_mean_2pt5degree.nc",
