@@ -209,6 +209,20 @@ def get_settings(experiment_name):
             "pop_year": 2070,
         },
 
+        # ---------------------- 40 years instead of 10--------------------
+        "exp40": {
+            "ssp": "119",  # [options: '126' or '119']
+            "netzero_year": 2056,
+            "focus_year": 2056,
+            "time_horizon": 40,
+            "n_members": 5,
+            "filenames": None,
+            "warming_cutoff": 0.01,
+            "plot_member": 12,
+            "gdp_year": 2080,
+            "pop_year": 2080,
+        },
+
 
         # ---------------------- LARGE ENSEMBLES ---------------------------
 
@@ -262,6 +276,19 @@ def get_settings(experiment_name):
             "plot_member": 8,
             "gdp_year": 2030,
             "pop_year": 2030,
+        },
+
+        "exp54": {
+            "ssp": "126",  # [options: '126' or '119']
+            "netzero_year": 2076,
+            "focus_year": 2076,
+            "time_horizon": 10,
+            "n_members": 50,
+            "filenames": ('tas_Amon_ssp126_CanESM5_all_ncecat_ann_mean_2pt5degree.nc',),
+            "warming_cutoff": 0.01,
+            "plot_member": 12,
+            "gdp_year": 2080,
+            "pop_year": 2080,
         },
         # ---------------------- PREINDUSTRIAL ---------------------------
 
