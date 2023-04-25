@@ -23,9 +23,11 @@ def compute_global_mean(da):
     
     return global_mean
 
+
 def fraction_positive(da):
     frac = 0.
     return frac
+
 
 def compute_trends(da, start_year, end_year):
     print('computing trends for ' + str(start_year) + '-' + str(end_year))
@@ -40,6 +42,7 @@ def compute_trends(da, start_year, end_year):
     da_reg = da_years.polyfit(dim="time",deg=1,)["polyfit_coefficients"]
     
     return da_reg
+
 
 def get_gdp(SHAPE_DIRECTORY, DATA_DIRECTORY, decade):
     regs_shp = pd.read_csv(SHAPE_DIRECTORY + 'ne_10m_admin_0_countries_CSV.csv')  
@@ -86,7 +89,8 @@ def get_population(filepath, da_grid):
     print(da_pop_regrid.sum(("lat","lon")))     
     
     return da_pop_regrid
-    
+
+
 def get_data(DATA_DIRECTORY, YEAR_RANGE, N_MEMBERS=None, filenames=None, ssp="119", time_horizon=10):
     
     if filenames is None:
@@ -100,6 +104,42 @@ def get_data(DATA_DIRECTORY, YEAR_RANGE, N_MEMBERS=None, filenames=None, ssp="11
                 "tas_Amon_ssp119_MRI-ESM2-0_all_ncecat_ann_mean_2pt5degree.nc",
                 "tas_Amon_ssp119_UKESM1-0-LL_all_ncecat_ann_mean_2pt5degree.nc",
                 "tas_Amon_ssp119_MPI-ESM1-2-LR_all_ncecat_ann_mean_2pt5degree.nc",
+            )
+        elif ssp=="119-x-pre":
+            filenames = (
+                "tas_day_historical_CanESM5_r1-5_ncecat_yearmax_2pt5degree.nc",
+                "tas_day_historical_CNRM-ESM2-1_r1-5_ncecat_yearmax_2pt5degree.nc",
+                "tas_day_historical_MIROC-ES2L_r1-5_ncecat_yearmax_2pt5degree.nc",
+                "tas_day_historical_MPI-ESM1-2-LR_r1-5_ncecat_yearmax_2pt5degree.nc",
+                "tas_day_historical_MRI-ESM2-0_r1-5_ncecat_yearmax_2pt5degree.nc",
+                "tas_day_historical_UKESM1-0-LL_r1-5_ncecat_yearmax_2pt5degree.nc",
+            )
+        elif ssp=="119-x":
+            filenames = (
+                "tas_day_ssp119_CanESM5_r1-5_ncecat_yearmax_2pt5degree.nc",
+                "tas_day_ssp119_CNRM-ESM2-1_r1-5_ncecat_yearmax_2pt5degree.nc",
+                "tas_day_ssp119_MIROC-ES2L_r1-5_ncecat_yearmax_2pt5degree.nc",
+                "tas_day_ssp119_MPI-ESM1-2-LR_r1-5_ncecat_yearmax_2pt5degree.nc",
+                "tas_day_ssp119_MRI-ESM2-0_r1-5_ncecat_yearmax_2pt5degree.nc",
+                "tas_day_ssp119_UKESM1-0-LL_r1-5_ncecat_yearmax_2pt5degree.nc",
+            )
+        elif ssp=="119-x-pre-pr":
+            filenames = (
+                "pr_day_historical_CanESM5_r1-5_ncecat_yearmax_2pt5degree.nc",
+                "pr_day_historical_IPSL-CM6A-LR_r1-5_ncecat_yearmax_2pt5degree.nc",
+                "pr_day_historical_MIROC-ES2L_r1-5_ncecat_yearmax_2pt5degree.nc",
+                "pr_day_historical_MPI-ESM1-2_r1-5_ncecat_yearmax_2pt5degree.nc",
+                "pr_day_historical_MRI-ESM2-0_r1-5_ncecat_yearmax_2pt5degree.nc",
+                "pr_day_historical_UKESM1-0-LL_r1-5_ncecat_yearmax_2pt5degree.nc",
+            )
+        elif ssp=="119-x-pr":
+            filenames = (
+                "pr_day_ssp119_CanESM5_r1-5_ncecat_yearmax_2pt5degree.nc",
+                "pr_day_ssp119_IPSL-CM6A-LR_r1-5_ncecat_yearmax_2pt5degree.nc",
+                "pr_day_ssp119_MIROC-ES2L_r1-5_ncecat_yearmax_2pt5degree.nc",
+                "pr_day_ssp119_MPI-ESM1-2_r1-5_ncecat_yearmax_2pt5degree.nc",
+                "pr_day_ssp119_MRI-ESM2-0_r1-5_ncecat_yearmax_2pt5degree.nc",
+                "pr_day_ssp119_UKESM1-0-LL_r1-5_ncecat_yearmax_2pt5degree.nc",
             )
         elif ssp=="126":
             filenames = (
@@ -116,8 +156,7 @@ def get_data(DATA_DIRECTORY, YEAR_RANGE, N_MEMBERS=None, filenames=None, ssp="11
             )            
         else:
             raise NotImplementedError
-        
-        
+
     da_all = None
     for file in filenames:
         print(file)
@@ -125,12 +164,17 @@ def get_data(DATA_DIRECTORY, YEAR_RANGE, N_MEMBERS=None, filenames=None, ssp="11
         da = xr.open_dataarray(DATA_DIRECTORY + file)
         da['time'] = da["time.year"]
         da = da.sel(time=slice(YEAR_RANGE[0],YEAR_RANGE[1]))     
-        
+
+        try:
+            da["member"]
+        except:
+            da = da.rename({"record": "member"})
+
         # compute anomalies from first 10 years of SSP
         da = da - da.sel(time=slice(YEAR_RANGE[0],YEAR_RANGE[0]+(time_horizon-1))).mean(('time','member'))
         
         if N_MEMBERS is not None:
-            da = da[:N_MEMBERS,:,:,:]
+            da = da[:N_MEMBERS, :, :, :]
         
         if da_all is None:
             da_all = da
